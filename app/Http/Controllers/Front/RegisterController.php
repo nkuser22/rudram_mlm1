@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\UserWallet;
 use App\Models\Profile;
 use App\Models\DatabaseModel;
-
+use App\Rules\IsSponsorAvailable;
 
 class RegisterController extends Controller
 {
@@ -37,7 +37,7 @@ class RegisterController extends Controller
             'mobile' => 'required|numeric|digits:10', 
             'password' => 'required|string|min:6|confirmed',
             'country' => 'required',
-            'u_sponsor' => 'required',
+            'u_sponsor' => ['required', 'string', new IsSponsorAvailable],
         ]);
         $usponsor = $request->input('u_sponsor');
         

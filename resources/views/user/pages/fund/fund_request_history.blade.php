@@ -19,17 +19,13 @@
 						</nav>
 					</div>
 					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Settings</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
-						</div>
+					<div class="btn-group">
+						<!-- Main button replaced with an anchor tag -->
+						<a href="{{url('/user-funds')}}" class="btn btn-primary">Add Fund Request</a>
+						
+						
 					</div>
+				</div>
 				</div>
 				<!--end breadcrumb-->
 				
@@ -42,6 +38,7 @@
                             <thead>
                                 <tr>
                                     <th>Sr.No.</th>
+                                    <th>Reason</th>
                                     <th>Userid(Name)</th>
                                     <th>Date</th>
                                     <th>Payment Slip</th>
@@ -63,6 +60,7 @@
                                         
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $transaction->reason }}</td>
                                     <td>{{ $user->username ?? 'N/A' }} ({{ $user->name ?? 'N/A' }})</td>
                                     <td>{{ $transaction->date }}</td>
                                     <td>

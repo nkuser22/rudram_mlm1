@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +8,7 @@ class Order extends Model
 {
     use HasFactory;
 	
-	
+	protected $table = 'orders';
 	
 	 public static function generateInvoiceNo()
     {
@@ -29,7 +28,6 @@ class Order extends Model
     {
         $bvQuery = DB::table('orders')
             ->where('u_code', $id)
-            ->where('status', '1')
             ->sum('order_bv');
 
         return $bvQuery ?: 0;
@@ -47,6 +45,25 @@ class Order extends Model
 
         return $bvQuery ?: 0;
     }
+
+
+        public function getPurchaseOrders($userid)
+    {
+        return $this->where('order_type', 'purchase')
+                    ->where('u_code',$userid) 
+                    ->get();  
+    }
+
+
+    public function getPurchaseOrderSum($userid)
+    {
+        return $this->where('order_type', 'purchase')
+            
+            ->where('u_code', $userid) 
+            ->sum('order_amount'); 
+    }
+
+
 
 
 

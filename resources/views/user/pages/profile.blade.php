@@ -19,22 +19,20 @@
 						</nav>
 					</div>
 					<div class="ms-auto">
-						<div class="btn-group">
-							<button type="button" class="btn btn-primary">Settings</button>
-							<button type="button" class="btn btn-primary split-bg-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">	<span class="visually-hidden">Toggle Dropdown</span>
-							</button>
-							<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-end">	<a class="dropdown-item" href="javascript:;">Action</a>
-								<a class="dropdown-item" href="javascript:;">Another action</a>
-								<a class="dropdown-item" href="javascript:;">Something else here</a>
-								<div class="dropdown-divider"></div>	<a class="dropdown-item" href="javascript:;">Separated link</a>
-							</div>
-						</div>
+					<div class="btn-group">
+						<a href="{{url('/user-profile')}}" class="btn btn-primary">Profile</a>
+					</div>
 					</div>
 				</div>
 				<!--end breadcrumb-->
 				<div class="container">
 					<div class="main-body">
 						<div class="row">
+						@if(session()->has('success'))
+						<x-alert type="success" title="Success Alerts" icon="bx bxs-check-circle">
+						{{session('success')}}
+						</x-alert>
+						@endif
 							<div class="col-lg-4">
 								<div class="card">
 									<div class="card-body">
@@ -156,7 +154,7 @@
 												<div class="progress mb-3" style="height: 5px">
 													<div class="progress-bar bg-warning" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
 												</div>
-												@if($user->user_status == 1)
+												@if($user->active_status == 1)
                                                     <p class="text-success">
                                                         <i class="fa fa-circle"></i> Active
                                                     </p>

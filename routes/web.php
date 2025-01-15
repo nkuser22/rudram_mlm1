@@ -30,6 +30,8 @@ use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PaymentMethodController;
+use App\Http\Controllers\Admin\WithdrawalAdminController;
+
 
 
 //  User 
@@ -37,6 +39,12 @@ use App\Http\controllers\User\DashboardController;
 use App\Http\Controllers\User\FundController;
 use App\Http\Controllers\User\TicketController;
 use App\Http\Controllers\User\TeamController;
+use App\Http\Controllers\User\Investment;
+use App\Http\Controllers\User\CompanyPayMethodController;
+use App\Http\Controllers\User\UseraccountsController;
+use App\Http\Controllers\User\WithdrawalController;
+
+
 
 
 /*
@@ -210,6 +218,14 @@ use App\Http\Controllers\User\TeamController;
 	Route::patch('/funds/{id}/approve', [AdminWalletController::class, 'approve'])->name('funds.approve');
     Route::patch('/funds/{id}/reject', [AdminWalletController::class, 'reject'])->name('funds.reject');
 
+
+ // Withdrawal route
+	Route::get('/admin/payout/pending', [WithdrawalAdminController::class, 'pendingPayout']);
+	Route::get('/admin/payout/approved', [WithdrawalAdminController::class, 'approvedPayout']);
+	Route::get('/admin/payout/cancelled', [WithdrawalAdminController::class, 'cancelledPayout']);
+	Route::patch('/payout/{id}/approve', [WithdrawalAdminController::class, 'approve'])->name('payouts.approve');
+    Route::patch('/payout/{id}/reject', [WithdrawalAdminController::class, 'reject'])->name('payouts.reject');
+
 	// support route
 	Route::get('/admin/support/pending', [SupportController::class, 'index'])->name('tickets.index'); 
     Route::delete('/{id}', [SupportController::class, 'destroy'])->name('tickets.destroy'); 
@@ -330,6 +346,28 @@ use App\Http\Controllers\User\TeamController;
 	Route::get('/user-tickets', [TicketController::class, 'index'])->name('tickets.index'); 
 	Route::get('/user-tickets/create', [TicketController::class, 'create']);
 	Route::post('/user-tickets/create', [TicketController::class, 'addticket'])->name('user.tickets.create');
+    
+// Investment
+	Route::get('/user-packages', [Investment::class, 'index'])->name('packages.index'); 
+	Route::get('/user-packages/create', [Investment::class, 'create']);
+	Route::post('/user-packages/create', [Investment::class, 'buypackages'])->name('user.packages.create');
+
+	Route::post('/user-packages/verify-username', [Investment::class, 'verifyUsername']);
+
+	// UserAccount payment
+	Route::get('/user-accounts', [UseraccountsController::class, 'index']);
+	Route::post('/user-accounts/store', [UseraccountsController::class, 'store'])->name('accounts.store');
+	Route::post('/accounts/getSection', [UseraccountsController::class, 'getSection'])->name('accounts.getSection');
+	Route::post('/accounts/defaultAccount/{id}', [UseraccountsController::class, 'defaultAccount'])->name('accounts.defaultAccount');
+	Route::post('/accounts/addDelete/{id}', [UseraccountsController::class, 'addDelete'])->name('accounts.addDelete');
+    
+
+    // Withdrawal
+	Route::get('/user-withdrawal-list', [WithdrawalController::class, 'index']);
+    Route::get('/withdrawal', [WithdrawalController::class, 'create']); 
+	Route::post('/user-withdrawal', [WithdrawalController::class, 'store'])->name('user.withdraw.store'); 
+
+
 
 	// Team 
 	Route::get('/user-directs', [TeamController::class, 'teamDirect']);

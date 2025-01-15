@@ -21,7 +21,22 @@ class UserWallet extends Model
         $this->addAmount($u_code, 'total_directs', 1);
         $this->addAmount($u_code, 'inactive_directs', 1);
     }
+
+    public function activeDirect($u_code){
+        
+         $this->addAmount($u_code,'total_directs',1);
+         $this->addAmount($u_code,'total_directs',-1);        
+     }
     
+
+
+     public function activeGen($u_code){
+        $this->addAmount($u_code,'active_gen',1);
+        $sponsor= (new Profile)->profileInfo($u_code);
+        if($sponsor){
+            $this->activeGen($sponsor->id);
+        }                
+    } 
   
     public function addGen($u_code)
     {

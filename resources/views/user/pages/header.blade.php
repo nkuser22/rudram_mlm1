@@ -67,7 +67,16 @@
 						<div class="parent-icon"><i class="bx bx-user-circle"></i>
 
 						</div>
-						<div class="menu-title">User Profile</div>
+						<div class="menu-title">My Profile</div>
+					</a>
+				</li>
+
+				<li>
+					<a href="{{url('/user-accounts')}}">
+						<div class="parent-icon"><i class="bx bx-cog"></i>
+
+						</div>
+						<div class="menu-title">Account Settings</div>
 					</a>
 				</li>
 				
@@ -108,9 +117,39 @@
 					</ul>
 				</li>
 
+				<li>
+					<a href="{{url('/withdrawal')}}">
+						<div class="parent-icon"><i class="bx bx-wallet"></i> <!-- Wallet Icon -->
+
+
+						</div>
+						<div class="menu-title">Withdrawal</div>
+					</a>
+				</li>
+
+
+
+
+				
+				<li class="menu-label">Investment Section</li>
+                <li>
+					<a class="has-arrow" href="javascript:;">
+						<div class="parent-icon"><i class="bx bx-money"></i>
+						</div>
+						<div class="menu-title">Buy Package</div>
+					</a>
+					<ul>
+						<li> <a href="{{url('/user-packages/create')}}" ><i class='bx bx-radio-circle'></i>Add Package</a>
+						</li>
+						<li> <a href="{{url('/user-packages')}}"><i class='bx bx-radio-circle'></i>Package History</a>
+						</li>
+						
+					</ul>
+				</li>
+
             
 				<li class="menu-label">Others</li>
-				<li>
+				<!--<li>
 					<a class="has-arrow" href="javascript:;">
 						<div class="parent-icon"><i class="bx bx-menu"></i>
 						</div>
@@ -128,14 +167,14 @@
 							</ul>
 						</li>
 					</ul>
-				</li>
-				<li>
+				</li>-->
+				<!--<li>
 					<a href="https://codervent.com/rocker/documentation/index.html" target="_blank">
 						<div class="parent-icon"><i class="bx bx-folder"></i>
 						</div>
 						<div class="menu-title">Documentation</div>
 					</a>
-				</li>
+				</li>-->
 				<li>
 					<a href="{{url('/user-tickets/create')}}">
 						<div class="parent-icon"><i class="bx bx-support"></i>

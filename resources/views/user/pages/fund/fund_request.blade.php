@@ -38,12 +38,11 @@
 						@csrf
 							<div class="card-body p-4">
 								<h5 class="mb-4">Fund Request</h5>
-                                @if(session()->has('success'))
-								<div class="alert alert-success alert-dismissible fade show" role="alert">
-									{{session('success')}}
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-								</div>
-								@endif 	  
+								@if(session()->has('success'))
+								<x-alert type="success" title="Success Alerts" icon="bx bxs-check-circle">
+								{{session('success')}}
+								</x-alert>
+                                @endif 	  
 								<div class="row mb-3">
 									<label for="input39"  class="col-sm-3 col-form-label " >Select Payment Method</label>
 									<div class="col-sm-9">

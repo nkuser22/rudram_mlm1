@@ -189,6 +189,42 @@
 			table.buttons().container()
 				.appendTo( '#example2_wrapper .col-md-6:eq(0)' );
 		} );
+
+
+		document.querySelectorAll('.check_username_exist').forEach((element) => {
+    element.addEventListener('change', function () {
+        const ths = this;
+        const resArea = ths.getAttribute('data-response');
+        const username = ths.value;
+        // alert(username);
+        // AJAX Request
+			fetch('/user-packages/verify-username', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+				},
+				body: JSON.stringify({ username }),
+			})
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    document.getElementById(resArea).textContent = data.msg;
+                    document.getElementById(resArea).style.color = 'red';
+                } else {
+                    document.getElementById(resArea).textContent = data.msg;
+                    document.getElementById(resArea).style.color = 'green';
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+});
+
+
+
+
 	</script>
 	<!--app JS-->
 	<script src="{{asset('user/u1/assets/js/app.js')}}"></script>

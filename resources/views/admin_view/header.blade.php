@@ -278,7 +278,7 @@
                                     </a>
                                 </li>
 
-                                <li class="sidebar-list">
+                                <!--<li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
                                         <i class="ri-shopping-bag-line"></i>
                                         <span>Product</span>
@@ -292,9 +292,9 @@
                                             <a href="{{url('admin/product/manage_product')}}">Add New Products</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
 
-                                <li class="sidebar-list">
+                                <!--<li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
                                         <i class="ri-apps-line"></i>
                                         <span>Category</span>
@@ -308,9 +308,9 @@
                                             <a href="{{url('admin/manage_category')}}">Add New Category</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
 
-                                <li class="sidebar-list">
+                                <!--<li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
                                         <i class="ri-flag-line"></i>
                                         <span>Banners</span>
@@ -324,7 +324,7 @@
                                             <a href="{{url('admin/banners/create')}}">Add New Banner</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li>-->
 
                                 <!--<li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
@@ -381,6 +381,32 @@
 										
 										<li>
                                             <a href="{{url('admin/fund/cancelled')}}">Cancelled Request History</a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+                               
+
+                                <li class="sidebar-list">
+                                    <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-wallet-line"></i>
+
+                                        <span>Withdraw</span>
+                                    </a>
+                                    <ul class="sidebar-submenu">
+                                       
+                                    <li>
+                                            <a href="{{url('admin/payout/pending')}}">Pending Request History</a>
+                                        </li>
+										
+										<li>
+                                            <a href="{{url('admin/payout/approved')}}">Approved Request History</a>
+                                        </li>
+										
+										<li>
+                                            <a href="{{url('admin/payout/cancelled')}}">Cancelled Request History</a>
                                         </li>
                                     </ul>
                                 </li>

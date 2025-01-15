@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use Illuminate\Support\Facades\DB;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -66,6 +66,8 @@ class User extends Authenticatable
     }
 
 
+     
+
      // Relationships
      public function country()
      {
@@ -123,5 +125,15 @@ class User extends Authenticatable
     return $level;
 }
 	
-	
+    public function getActiveID()
+        {
+            $mxId = DB::table('users')
+                ->where('active_status', '=', 1)
+                ->max('active_id');
+
+            $activeId = ($mxId ? $mxId : 0) + 1;
+
+            return $activeId;
+        }
+  
 }

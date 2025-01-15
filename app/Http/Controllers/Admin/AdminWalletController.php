@@ -184,6 +184,11 @@ class AdminWalletController extends Controller
 		$fund = Transaction::findOrFail($id);
 		$fund->status = 1; // approved
 		$query=$fund->save();
+		if($query){
+
+			$wallet = new UserWallet();
+            $wallet->addAmount($userId,$wallet_type,$amt);
+		}
 		
 		return redirect('admin/fund/pending')->with('message', 'Fund approved successfully.');
 		
@@ -203,6 +208,7 @@ class AdminWalletController extends Controller
 		$fund->status = 2;
         $fund->reason =$reason;		// Rejected
 		$fund->save();
+		
 		}
        
 		return redirect()->back()->with('message', 'Fund rejected successfully.');

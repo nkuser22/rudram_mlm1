@@ -29,10 +29,11 @@ class Profile extends Model
 
     public function myDefaultAccount($u_code)
     {
-        $account = \DB::table('user_payment_methods')
+        $account = \DB::table('useraccounts')
             ->where('u_code', $u_code)
             ->where('status', 1)
             ->first();
+            
 
         if ($account) {
             $default = $account->default_account;
