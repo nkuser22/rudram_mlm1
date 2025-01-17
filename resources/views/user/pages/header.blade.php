@@ -38,32 +38,6 @@
 	<link rel="stylesheet" href="{{asset('user/u1/assets/css/header-colors.css')}}"/>
 	<title>{{$Conn->websiteInfo('company_name')}}</title>
 
-	<style>
-   /* Popup styling */
-.popup {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #28a745;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 5px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.3s, transform 0.3s;
-    z-index: 1000;
-}
-
-/* Show popup animation */
-.popup.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-
-
-
-	</style>
 </head>
 
 <body>

@@ -304,8 +304,7 @@
 									<input type="text" id="referralLink" class="form-control" 
 										value="{{url('/register')}}?code={{$user->username}}" readonly>
 										<button class="btn btn-outline-secondary" id="copyButton" onclick="copyLink()">Copy</button>
-                                    <div id="copyPopup" class="popup">Copied!</div>
-
+                                    
 								</div>
 								<div class="d-flex justify-content-between mt-3">
 									<a class="btn btn-success btn-custom col-4" 
