@@ -13,7 +13,8 @@ use App\Models\DatabaseModel;
 use Illuminate\Support\Carbon;
 use App\Models\WalletType;
 use App\Models\UserWallet;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;  
+
 class DashboardController extends Controller
 {
     public function index(){
@@ -26,12 +27,27 @@ class DashboardController extends Controller
 	$currency=$Conn->websiteInfo('currency');
 	$total_amt=Order::sum('order_amount');
 	$total_order=Order::count();
-	$todayTotal = Order::whereDate('created_at', Carbon::today())
-                        ->sum('order_amount');
+    $totalWithdrawal=UserWallet::sum('e17');
+    
+	$todayTotal = Order::whereDate('created_at', Carbon::today())->sum('order_amount');
+
+    $totalIncome = Transaction::where('u_code',$userId)->where('tx_type', 'income')->sum('amount');
 						
-    $usersWallets = WalletType::where('wallet_type', 'wallet')
-		->where('status', 1)
-		->get();
+    $usersWallets = WalletType::whereIn('wallet_type', ['wallet'])
+    ->where('status', 1)
+    ->where('plan_type', 1)
+    ->get();
+    
+    
+    $incomes = WalletType::where('wallet_type', 'income')
+    ->where('status', 1)
+    ->where('plan_type', 1)
+    ->get();
+
+    $slugs =  $incomes->pluck('slug');
+    $todayIncome = DB::table('transactions')->where('tx_type', 'income')->whereIn('source', $slugs)->whereDate('created_at', today())->sum('amount');
+  
+    $wallet_balance = UserWallet::where('u_code', $userId)->first() ?? [];
     
     $transactions = Transaction::where('tx_type', 'income')
 			->orderBy('created_at', 'desc')
@@ -45,8 +61,35 @@ class DashboardController extends Controller
         ];
 
     $alltransactions = Transaction::where('u_code',$userId)->latest()->take(6)->get(); 
-	
-    return view('user.pages.index', compact('popup','data','currency','usersWallets','userId','wallet','transactions','alltransactions','user'));
+    $team = DB::table('wallet_types')->select('*')->where('wallet_type', 'team')->where('status','1')->where('plan_type', '1')->get();
+
+
+
+    $incomeData = DB::table('transactions')
+    ->where('u_code', $userId)
+    ->where('tx_type', 'income')
+    ->select(DB::raw('DATE_FORMAT(date, "%Y-%m") as month'), DB::raw('SUM(amount) as total_income'))
+    ->groupBy(DB::raw('DATE_FORMAT(date, "%Y-%m")'))
+    ->orderBy(DB::raw('DATE_FORMAT(date, "%Y-%m")'), 'asc')
+    ->get()
+    ->pluck('total_income')
+    ->toArray();
+
+
+    $withdrawalData = DB::table('transactions')
+    ->where('u_code', $userId)
+    ->where('tx_type', 'withdrawal')
+    ->select(DB::raw('DATE_FORMAT(date, "%Y-%m") as month'), DB::raw('SUM(amount) as total_withdrawal'))
+    ->groupBy(DB::raw('DATE_FORMAT(date, "%Y-%m")'))
+    ->orderBy(DB::raw('DATE_FORMAT(date, "%Y-%m")'), 'asc')
+    ->get()
+    ->pluck('total_withdrawal')
+    ->toArray();
+
+
+    
+   
+    return view('user.pages.index', compact('totalWithdrawal','totalIncome','incomeData','withdrawalData','team','todayIncome','incomes','wallet_balance','popup','data','currency','usersWallets','userId','wallet','transactions','alltransactions','user'));
   }
 		
    public function userProfile(){

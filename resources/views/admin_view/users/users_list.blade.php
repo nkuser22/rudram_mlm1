@@ -1,5 +1,9 @@
 @extends('admin_view.main')
 @section('content')
+@php
+ use App\Models\DatabaseModel;
+ $Conn = new DatabaseModel();
+@endphp
  <!-- Container-fluid starts-->
  <div class="page-body">
     <!-- All User Table Start -->
@@ -172,7 +176,7 @@
         <footer class="footer">
             <div class="row">
                 <div class="col-md-12 footer-copyright text-center">
-                    <p class="mb-0">Copyright 2024 © Rudram</p>
+                    <p class="mb-0">Copyright 2025 © {{$Conn->websiteInfo('company_name')}}</p>
                 </div>
             </div>
         </footer>

@@ -72,10 +72,11 @@ class AdminController extends Controller
 	  if (!session()->has('admin_login')) {
 			return redirect('/admin/login')->with('error', 'Please login first.');
 	   }
+
          $result['totalRevenue']= Order::sum('order_amount');
-		 $result['totalOrders'] = Order::count();
-		 $result['totalProducts'] = Product::count();
-		 $result['totalCustomers'] = User::count();
+		 $result['totalusers'] = User::count();
+		 $result['activeUser'] =User::where('active_status', 1)->count();
+		 $result['inactiveUser'] = User::where('active_status', 0)->count();
 		 $result['categories']= Category::all();
 		 
 		 $result['revenues'] = \DB::table('orders')

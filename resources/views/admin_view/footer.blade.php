@@ -7,7 +7,7 @@
     <footer class="footer">
         <div class="row">
             <div class="col-md-12 footer-copyright text-center">
-                <p class="mb-0">Copyright 2024 © {{$Conn->websiteInfo('company_name')}}</p>
+                <p class="mb-0">Copyright 2025 © {{$Conn->websiteInfo('company_name')}}</p>
             </div>
         </div>
     </footer>
@@ -523,25 +523,26 @@
         <!-- ck editor js -->
     <script src="{{ asset ('assets/js/ckeditor.js') }}"></script>
     <script src="{{ asset ('assets/js/ckeditor-custom.js') }}"></script>
+    
      <script>
        
 		let table = new DataTable('#myTable', {
-			paging: true,        // Enable or disable pagination
-			ordering: true,      // Enable or disable sorting
-			info: true,          // Show table information (e.g., "Showing 1 to 10 of 57 entries")
-			 // Custom Search Input
+			paging: true,        
+			ordering: true,     
+			info: true,         
+			 
                 search: {
-                    placeholder: "Search your records here...", // Custom placeholder text
+                    placeholder: "Search your records here...", 
                 },
 
-                // Custom Language Options
+                
                 language: {
-                    lengthMenu: "Display _MENU_", // Custom length menu text
-                    search: "Filter results:",                   // Custom label for the search input
-                    info: "Showing _START_ to _END_ of _TOTAL_ entries", // Info format
+                    lengthMenu: "Display _MENU_", 
+                    search: "Filter results:",                 
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries", 
                     paginate: {
-                        previous: "Prev", // Custom text for the "Previous" button
-                        next: "Next"      // Custom text for the "Next" button
+                        previous: "Prev", 
+                        next: "Next"      
                     }
                 }
 				
@@ -560,8 +561,33 @@
             }
         });
 
-  
-    
+
+    $(document).ready(function () {
+        function filterTable() {
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+            const username = $('#username').val().toLowerCase();
+
+            $('#tableBody tr').filter(function () {
+                
+                const date = $(this).find('td:eq(0)').attr('data-date');
+                
+                const user = $(this).find('td:eq(1)').text().toLowerCase();
+            
+                
+                const matchesDate =(!startDate || date >= startDate) && (!endDate || date <= endDate);
+
+                const matchesUsername = !username || user.includes(username);
+                
+               
+                $(this).toggle(matchesDate && matchesUsername);
+            });
+        }
+
+       
+        $('#startDate, #endDate, #username').on('input change', filterTable);
+    });
+
     </script>
 
 </body>

@@ -37,6 +37,33 @@
 	<link rel="stylesheet" href="{{asset('user/u1/assets/css/semi-dark.css')}}"/>
 	<link rel="stylesheet" href="{{asset('user/u1/assets/css/header-colors.css')}}"/>
 	<title>{{$Conn->websiteInfo('company_name')}}</title>
+
+	<style>
+   /* Popup styling */
+.popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 1000;
+}
+
+/* Show popup animation */
+.popup.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+
+	</style>
 </head>
 
 <body>
@@ -143,6 +170,39 @@
 						</li>
 						<li> <a href="{{url('/user-packages')}}"><i class='bx bx-radio-circle'></i>Package History</a>
 						</li>
+						
+					</ul>
+				</li>
+
+
+
+				<li class="menu-label">Income Section</li>
+                <li>
+					<a class="has-arrow" href="javascript:;">
+						<div class="parent-icon"><i class="bx bx-money"></i>
+						</div>
+						<div class="menu-title">Incomes</div>
+					</a>
+					<ul>
+						
+						@php
+							$allIncome = \App\Models\WalletType::where('wallet_type', 'income')
+								->where('status', 1)
+								->where('plan_type', 1)
+								->get();
+						@endphp
+
+						@if($allIncome->isNotEmpty())
+							<ul>
+								@foreach($allIncome as $income)
+									<li>
+										<a href="{{ url('/user/payout/incomes?source=' . $income->slug) }}">
+										<i class='bx bx-radio-circle'></i>{{ $income->name }}
+										</a>
+									</li>
+								@endforeach
+							</ul>
+						@endif
 						
 					</ul>
 				</li>

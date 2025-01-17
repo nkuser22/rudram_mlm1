@@ -31,6 +31,7 @@ use App\Http\Controllers\Admin\SupportController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PaymentMethodController;
 use App\Http\Controllers\Admin\WithdrawalAdminController;
+use App\Http\Controllers\Admin\IncomesController;
 
 
 
@@ -43,6 +44,9 @@ use App\Http\Controllers\User\Investment;
 use App\Http\Controllers\User\CompanyPayMethodController;
 use App\Http\Controllers\User\UseraccountsController;
 use App\Http\Controllers\User\WithdrawalController;
+use App\Http\Controllers\User\PayoutController;
+
+
 
 
 
@@ -220,11 +224,16 @@ use App\Http\Controllers\User\WithdrawalController;
 
 
  // Withdrawal route
-	Route::get('/admin/payout/pending', [WithdrawalAdminController::class, 'pendingPayout']);
+	Route::get('//payout/pending', [WithdrawalAdminController::class, 'pendingPayout']);
 	Route::get('/admin/payout/approved', [WithdrawalAdminController::class, 'approvedPayout']);
 	Route::get('/admin/payout/cancelled', [WithdrawalAdminController::class, 'cancelledPayout']);
 	Route::patch('/payout/{id}/approve', [WithdrawalAdminController::class, 'approve'])->name('payouts.approve');
     Route::patch('/payout/{id}/reject', [WithdrawalAdminController::class, 'reject'])->name('payouts.reject');
+
+
+	// Incomes
+	Route::get('/admin/incomes/report', [IncomesController::class, 'report'])->name('incomes.report');
+        
 
 	// support route
 	Route::get('/admin/support/pending', [SupportController::class, 'index'])->name('tickets.index'); 
@@ -373,6 +382,11 @@ use App\Http\Controllers\User\WithdrawalController;
 	Route::get('/user-directs', [TeamController::class, 'teamDirect']);
 	Route::get('/user-teams', [TeamController::class, 'teamGeneration']);
 
+
+	// incomes
+	
+	Route::get('user/payout/incomes', [PayoutController::class, 'incomes'])->name('payout.incomes');
+		
 	
   Route::get('/logout', function () {
     Auth::logout();

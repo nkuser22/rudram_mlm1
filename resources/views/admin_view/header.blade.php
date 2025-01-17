@@ -72,6 +72,7 @@
    
     <!-- jQuery CDN (Latest version) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
 	
 	<style>
@@ -215,7 +216,7 @@
                                 <li>
                                     <a href="{{url('admin/support/pending')}}">
                                         <i data-feather="phone"></i>
-                                        <span>Spports Tickets</span>
+                                        <span>Suports Tickets</span>
                                     </a>
                                 </li>
                                 <li>
@@ -450,21 +451,34 @@
                                     </ul>
                                 </li>
 
-                                <!--<li class="sidebar-list">
+                               <li class="sidebar-list">
                                     <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
                                         <i class="ri-price-tag-3-line"></i>
-                                        <span>Coupons</span>
+                                        <span>Incomes</span>
                                     </a>
                                     <ul class="sidebar-submenu">
-                                        <li>
-                                            <a href="{{url('admin/coupon_list')}}">Coupon List</a>
-                                        </li>
+                                       
+                                    @php
+                                        $allIncome = \App\Models\WalletType::where('wallet_type', 'income')
+                                            ->where('status', 1)
+                                            ->where('plan_type', 1)
+                                            ->get();
+                                    @endphp
 
-                                        <li>
-                                            <a href="{{url('admin/create_coupon')}}">Create Coupon</a>
-                                        </li>
+                                    @if($allIncome->isNotEmpty())
+                                        <ul>
+                                            @foreach($allIncome as $income)
+                                                <li>
+                                                    <a href="{{ url('/admin/incomes/report?source=' . $income->slug) }}">
+                                                        <i class="bx bx-right-arrow-alt"></i>{{ $income->name }}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    @endif
+                                                                        
                                     </ul>
-                                </li>-->
+                                </li>
 
                                <!-- <li class="sidebar-list">
                                     <a class="sidebar-link sidebar-title link-nav" href="{{url('admin/taxes')}}">

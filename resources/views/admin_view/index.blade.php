@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\DB;
 								<div class="custome-1-bg b-r-4 card-body">
 									<div class="media align-items-center static-top-widget">
 										<div class="media-body p-0">
-											<span class="m-0">Total Revenue</span>
-											<h4 class="mb-0 counter">${{ number_format($totalRevenue, 2) }}
+											<span class="m-0">Total Users</span>
+											<h4 class="mb-0 counter">{{ number_format($totalusers) }}
 												<span class="badge badge-light-primary grow">
 													<i data-feather="trending-up"></i>8.5%</span>
 											</h4>
@@ -40,8 +40,8 @@ use Illuminate\Support\Facades\DB;
 								<div class="custome-2-bg b-r-4 card-body">
 									<div class="media static-top-widget">
 										<div class="media-body p-0">
-											<span class="m-0">Total Orders</span>
-											<h4 class="mb-0 counter">{{ number_format($totalOrders) }}
+											<span class="m-0">Active Users</span>
+											<h4 class="mb-0 counter">{{ number_format($activeUser) }}
 												<span class="badge badge-light-danger grow">
 													<i data-feather="trending-down"></i>8.5%</span>
 											</h4>
@@ -62,8 +62,8 @@ use Illuminate\Support\Facades\DB;
 								<div class="custome-3-bg b-r-4 card-body">
 									<div class="media static-top-widget">
 										<div class="media-body p-0">
-											<span class="m-0">Total Products</span>
-											<h4 class="mb-0 counter">{{ number_format($totalProducts) }}
+											<span class="m-0">InActive Users</span>
+											<h4 class="mb-0 counter">{{ number_format($inactiveUser) }}
 												<a href="javascript:void(0)" class="badge badge-light-secondary grow">ADD NEW</a>
 											</h4>
 										</div>
@@ -83,8 +83,8 @@ use Illuminate\Support\Facades\DB;
 								<div class="custome-4-bg b-r-4 card-body">
 									<div class="media static-top-widget">
 										<div class="media-body p-0">
-											<span class="m-0">Total Customers</span>
-											<h4 class="mb-0 counter">{{ number_format($totalCustomers) }}  <!-- Display total customers dynamically -->
+											<span class="m-0">Total Investment</span>
+											<h4 class="mb-0 counter">{{ number_format($totalRevenue) }}  <!-- Display total customers dynamically -->
 												<span class="badge badge-light-success grow">
 													<i data-feather="trending-down"></i>8.5%</span>
 											</h4>
@@ -99,33 +99,7 @@ use Illuminate\Support\Facades\DB;
 						<!-- Total Customers Card Section End -->
 
 
-										   <!-- Category Section -->
-					<div class="col-12">
-						<div class="card o-hidden card-hover">
-							<div class="card-header border-0 pb-1">
-								<div class="card-header-title p-0">
-									<h4>Category</h4>
-								</div>
-							</div>
-							<div class="card-body p-0">
-								<div class="category-slider no-arrow">
-									@foreach($categories as $category)
-										<div>
-											<div class="dashboard-category">
-												<a href="javascript:void(0)" class="category-image">
-													<img src="{{ asset('storage/media/category/'.$category->category_img) }}" class="img-fluid" alt="{{ $category->category_img }}">
-												</a>
-												<a href="javascript:void(0)" class="category-name">
-													<h6>{{ $category->category_name }}</h6>
-												</a>
-											</div>
-										</div>
-									@endforeach
-								</div>
-							</div>
-						</div>
-					</div>
-					<!-- Category Section End -->
+									
 
 
 
@@ -134,7 +108,7 @@ use Illuminate\Support\Facades\DB;
 						<div class="card o-hidden card-hover">
 							<div class="card-header border-0 pb-1">
 								<div class="card-header-title">
-									<h4>Revenue Report</h4>
+									<h4>Investment Report</h4>
 								</div>
 							</div>
 							<div class="card-body p-0">
@@ -150,7 +124,7 @@ use Illuminate\Support\Facades\DB;
                             <div class="card o-hidden card-hover">
                                 <div class="card-header card-header-top card-header--2 px-0 pt-0">
                                     <div class="card-header-title">
-                                        <h4>Recent Customers</h4>
+                                        <h4>Recent Users</h4>
                                     </div>
 
                                     <!--<div class="best-selling-box d-sm-flex d-none">

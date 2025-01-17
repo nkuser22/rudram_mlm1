@@ -1,4 +1,8 @@
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @if($popup)
+
     <div class="row">
         <div class="col-lg-12">
             <div class="d-flex justify-content-between mb-3">
@@ -17,7 +21,7 @@
                                     <div class="mb-2">
                                         <label for="toaddress">Title</label>
                                         <div class="input-group">
-                                            <span class="input-group-text" id="QUcode"><i class="fas fa-qrcode"><  	 	/i></span>
+                                            <span class="input-group-text" id="QUcode"><i class="fas fa-qrcode"></i></span>
                                             <input type="text" class="form-control" value="{{ $popup->title }}" placeholder="Can you scan" aria-label="Scancode" readonly>
                                         </div>
                                     </div>
@@ -47,7 +51,11 @@
         </div><!--end col-->
     </div><!--end row-->
 
-    
+   
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
         <script type="text/javascript">
             // Automatically open the modal on page load
             $(document).ready(function() {
@@ -62,66 +70,38 @@
 		<div class="page-wrapper">
 			<div class="page-content">
 				<div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+				@php
+					$ttl = [];
+				@endphp
+
+				@foreach($incomes as $income)
+					@php
+						$slug = $income->wallet_column;
+						$color = $income->color;
+						$icons = $income->icons;
+						$bg_color = $income->icons_bg;
+						
+						$walletBalance = !empty($wallet_balance) && isset($wallet_balance->$slug) ? $wallet_balance->$slug : 0;
+						$ttl[] = $walletBalance;
+					@endphp
                    <div class="col">
-					 <div class="card radius-10 border-start border-0 border-4 border-info">
+					 <div class="card radius-10 border-start border-0 border-4 border-{{$color}}">
 						<div class="card-body">
 							<div class="d-flex align-items-center">
 								<div>
-									<p class="mb-0 text-secondary">Total Orders</p>
-									<h4 class="my-1 text-info">4805</h4>
-									<p class="mb-0 font-13">+2.5% from last week</p>
+									<p class="mb-0 text-secondary">{{ $income->name }}</p>
+									<h4 class="my-1 text-{{$color}}">{{ $currency }}&nbsp;{{ $walletBalance }}</h4>
+									<p class="mb-0 font-13">{{ $currency }}&nbsp;{{$todayIncome}} Today income</p>
 								</div>
-								<div class="widgets-icons-2 rounded-circle bg-gradient-blues text-white ms-auto"><i class='bx bxs-cart'></i>
+								<div class="widgets-icons-2 rounded-circle {{$bg_color}} text-white ms-auto"><i class='bx bxs-{{$icons}}'></i>
 								</div>
 							</div>
 						</div>
 					 </div>
 				   </div>
-				   <div class="col">
-					<div class="card radius-10 border-start border-0 border-4 border-danger">
-					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Total Revenue</p>
-								   <h4 class="my-1 text-danger">$84,245</h4>
-								   <p class="mb-0 font-13">+5.4% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-burning text-white ms-auto"><i class='bx bxs-wallet'></i>
-							   </div>
-						   </div>
-					   </div>
-					</div>
-				  </div>
-				  <div class="col">
-					<div class="card radius-10 border-start border-0 border-4 border-success">
-					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Bounce Rate</p>
-								   <h4 class="my-1 text-success">34.6%</h4>
-								   <p class="mb-0 font-13">-4.5% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white ms-auto"><i class='bx bxs-bar-chart-alt-2' ></i>
-							   </div>
-						   </div>
-					   </div>
-					</div>
-				  </div>
-				  <div class="col">
-					<div class="card radius-10 border-start border-0 border-4 border-warning">
-					   <div class="card-body">
-						   <div class="d-flex align-items-center">
-							   <div>
-								   <p class="mb-0 text-secondary">Total Customers</p>
-								   <h4 class="my-1 text-warning">8.4K</h4>
-								   <p class="mb-0 font-13">+8.4% from last week</p>
-							   </div>
-							   <div class="widgets-icons-2 rounded-circle bg-gradient-orange text-white ms-auto"><i class='bx bxs-group'></i>
-							   </div>
-						   </div>
-					   </div>
-					</div>
-				  </div> 
+				   @endforeach
+				 
+				
 				</div><!--end row-->
 
 				<div class="row">
@@ -130,12 +110,12 @@
 						<div class="card-header">
 							<div class="d-flex align-items-center">
 								<div>
-									<h6 class="mb-0">Sales Overview</h6>
+									<h6 class="mb-0">Income & Withdrawal  Overview</h6>
 								</div>
 								<div class="dropdown ms-auto">
 									<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
 									</a>
-									<ul class="dropdown-menu">
+									<!-- <ul class="dropdown-menu">
 										<li><a class="dropdown-item" href="javascript:;">Action</a>
 										</li>
 										<li><a class="dropdown-item" href="javascript:;">Another action</a>
@@ -145,38 +125,41 @@
 										</li>
 										<li><a class="dropdown-item" href="javascript:;">Something else here</a>
 										</li>
-									</ul>
+									</ul> -->
 								</div>
 							</div>
 						</div>
 						  <div class="card-body">
 							<div class="d-flex align-items-center ms-auto font-13 gap-2 mb-3">
-								<span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #14abef"></i>Sales</span>
-								<span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ffc107"></i>Visits</span>
+								<span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #14abef"></i>Income</span>
+								<span class="border px-1 rounded cursor-pointer"><i class="bx bxs-circle me-1" style="color: #ffc107"></i>Withdrawal</span>
 							</div>
 							<div class="chart-container-1">
-								<canvas id="chart1"></canvas>
+								<canvas id="chart11"></canvas>
 							  </div>
 						  </div>
 						  <div class="row row-cols-1 row-cols-md-3 row-cols-xl-3 g-0 row-group text-center border-top">
-							<div class="col">
+
+						  <div class="col">
 							  <div class="p-3">
-								<h5 class="mb-0">24.15M</h5>
-								<small class="mb-0">Overall Visitor <span> <i class="bx bx-up-arrow-alt align-middle"></i> 2.43%</span></small>
+								<h5 class="mb-0">{{$currency}} {{$data['totalOrderamt']}}</h5>
+								<small class="mb-0">My Package <span> <i class="bx bx-up-arrow-alt align-middle"></i></span></small>
 							  </div>
 							</div>
 							<div class="col">
 							  <div class="p-3">
-								<h5 class="mb-0">12:38</h5>
-								<small class="mb-0">Visitor Duration <span> <i class="bx bx-up-arrow-alt align-middle"></i> 12.65%</span></small>
+								<h5 class="mb-0">{{$currency}} {{$totalIncome}}</h5>
+								<small class="mb-0">Total Income <span> <i class="bx bx-up-arrow-alt align-middle"></i> </span></small>
 							  </div>
 							</div>
 							<div class="col">
 							  <div class="p-3">
-								<h5 class="mb-0">639.82</h5>
-								<small class="mb-0">Pages/Visit <span> <i class="bx bx-up-arrow-alt align-middle"></i> 5.62%</span></small>
+								<h5 class="mb-0">{{$currency}} {{$totalWithdrawal}}</h5>
+								<small class="mb-0">Total Withdrawal <span> <i class="bx bx-up-arrow-alt align-middle"></i></span></small>
 							  </div>
 							</div>
+							
+							
 						  </div>
 					  </div>
 				   </div>
@@ -185,12 +168,12 @@
 						<div class="card-header">
 							<div class="d-flex align-items-center">
 								<div>
-									<h6 class="mb-0">Trending Products</h6>
+									<h6 class="mb-0">Team Section</h6>
 								</div>
 								<div class="dropdown ms-auto">
 									<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
 									</a>
-									<ul class="dropdown-menu">
+									<!-- <ul class="dropdown-menu">
 										<li><a class="dropdown-item" href="javascript:;">Action</a>
 										</li>
 										<li><a class="dropdown-item" href="javascript:;">Another action</a>
@@ -200,24 +183,36 @@
 										</li>
 										<li><a class="dropdown-item" href="javascript:;">Something else here</a>
 										</li>
-									</ul>
+									</ul> -->
 								</div>
 							</div>
 						</div>
 						   <div class="card-body">
 							<div class="chart-container-2">
-								<canvas id="chart2"></canvas>
+								<canvas id="chart21"></canvas>
 							  </div>
 						   </div>
 						   <ul class="list-group list-group-flush">
-							<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center border-top">Jeans <span class="badge bg-success rounded-pill">25</span>
+
+						   @foreach($team as $section)
+							@php
+								$slug = $section->wallet_column; 
+								$icon = '';
+								$bg_cl = $section->icons_bg;
+                                $walletBalance = !empty($wallet_balance) && isset($wallet_balance->$slug) ? $wallet_balance->$slug : 0;
+							@endphp
+
+							<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center border-top">{{ $section->name }} <span class="badge bg-{{$bg_cl}} rounded-pill">{{ $walletBalance }}</span>
 							</li>
-							<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">T-Shirts <span class="badge bg-danger rounded-pill">10</span>
+							@endforeach
+
+
+							<!-- <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">T-Shirts <span class="badge bg-danger rounded-pill">10</span>
 							</li>
 							<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Shoes <span class="badge bg-primary rounded-pill">65</span>
 							</li>
 							<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Lingerie <span class="badge bg-warning text-dark rounded-pill">14</span>
-							</li>
+							</li> -->
 						</ul>
 					   </div>
 				   </div>
@@ -227,12 +222,12 @@
 					<div class="card-header">
 						<div class="d-flex align-items-center">
 							<div>
-								<h6 class="mb-0">Recent Orders</h6>
+								<h6 class="mb-0">Recent Transactions</h6>
 							</div>
 							<div class="dropdown ms-auto">
 								<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
 								</a>
-								<ul class="dropdown-menu">
+								<!-- <ul class="dropdown-menu">
 									<li><a class="dropdown-item" href="javascript:;">Action</a>
 									</li>
 									<li><a class="dropdown-item" href="javascript:;">Another action</a>
@@ -242,7 +237,7 @@
 									</li>
 									<li><a class="dropdown-item" href="javascript:;">Something else here</a>
 									</li>
-								</ul>
+								</ul> -->
 							</div>
 						</div>
 					</div>
@@ -251,85 +246,24 @@
 						   <table class="table align-middle mb-0">
 							<thead class="table-light">
 							 <tr>
-							   <th>Product</th>
-							   <th>Photo</th>
-							   <th>Product ID</th>
-							   <th>Status</th>
-							   <th>Amount</th>
 							   <th>Date</th>
-							   <th>Shipping</th>
-							 </tr>
+							   <th>Amount</th>
+							   <th>Txn Type</th>
+							   <th>Remark</th>
+							   <th>Credit/Debit</th>
+							</tr>
 							 </thead>
-							 <tbody><tr>
-							  <td>Iphone 5</td>
-							  <td><img src="assets/images/products/01.png" class="product-img-2" alt="product img"></td>
-							  <td>#9405822</td>
-							  <td><span class="badge bg-gradient-quepal text-white shadow-sm w-100">Paid</span></td>
-							  <td>$1250.00</td>
-							  <td>03 Feb 2020</td>
-							  <td><div class="progress" style="height: 6px;">
-									<div class="progress-bar bg-gradient-quepal" role="progressbar" style="width: 100%"></div>
-								  </div></td>
-							 </tr>
-		  
+							 <tbody>
+							 @foreach($alltransactions as $txdata)
 							 <tr>
-							  <td>Earphone GL</td>
-							  <td><img src="assets/images/products/02.png" class="product-img-2" alt="product img"></td>
-							  <td>#8304620</td>
-							  <td><span class="badge bg-gradient-blooker text-white shadow-sm w-100">Pending</span></td>
-							  <td>$1500.00</td>
-							  <td>05 Feb 2020</td>
-							  <td><div class="progress" style="height: 6px;">
-									<div class="progress-bar bg-gradient-blooker" role="progressbar" style="width: 60%"></div>
-								  </div></td>
-							 </tr>
-		  
-							 <tr>
-							  <td>HD Hand Camera</td>
-							  <td><img src="assets/images/products/03.png" class="product-img-2" alt="product img"></td>
-							  <td>#4736890</td>
-							  <td><span class="badge bg-gradient-bloody text-white shadow-sm w-100">Failed</span></td>
-							  <td>$1400.00</td>
-							  <td>06 Feb 2020</td>
-							  <td><div class="progress" style="height: 6px;">
-									<div class="progress-bar bg-gradient-bloody" role="progressbar" style="width: 70%"></div>
-								  </div></td>
-							 </tr>
-		  
-							 <tr>
-							  <td>Clasic Shoes</td>
-							  <td><img src="assets/images/products/04.png" class="product-img-2" alt="product img"></td>
-							  <td>#8543765</td>
-							  <td><span class="badge bg-gradient-quepal text-white shadow-sm w-100">Paid</span></td>
-							  <td>$1200.00</td>
-							  <td>14 Feb 2020</td>
-							  <td><div class="progress" style="height: 6px;">
-									<div class="progress-bar bg-gradient-quepal" role="progressbar" style="width: 100%"></div>
-								  </div></td>
-							 </tr>
-							 <tr>
-							  <td>Sitting Chair</td>
-							  <td><img src="assets/images/products/06.png" class="product-img-2" alt="product img"></td>
-							  <td>#9629240</td>
-							  <td><span class="badge bg-gradient-blooker text-white shadow-sm w-100">Pending</span></td>
-							  <td>$1500.00</td>
-							  <td>18 Feb 2020</td>
-							  <td><div class="progress" style="height: 6px;">
-									<div class="progress-bar bg-gradient-blooker" role="progressbar" style="width: 60%"></div>
-								  </div></td>
-							 </tr>
-							 <tr>
-							  <td>Hand Watch</td>
-							  <td><img src="assets/images/products/05.png" class="product-img-2" alt="product img"></td>
-							  <td>#8506790</td>
-							  <td><span class="badge bg-gradient-bloody text-white shadow-sm w-100">Failed</span></td>
-							  <td>$1800.00</td>
-							  <td>21 Feb 2020</td>
-							  <td><div class="progress" style="height: 6px;">
-									<div class="progress-bar bg-gradient-bloody" role="progressbar" style="width: 40%"></div>
-								  </div></td>
-							 </tr>
-						    </tbody>
+							  <td><span class="badge bg-gradient-quepal text-white shadow-sm w-100">{{$txdata->date}}</span></td>
+							  <td>{{$currency}} {{$txdata->amount}}</span></td>
+							  <td>{{$txdata->tx_type}}</td>
+							  <td>{{$txdata->remark ?? 'NA'}}</td>
+							  <td><span class="badge bg-gradient-quepal text-white shadow-sm w-100">{{$txdata->debit_credit ?? 'NA'}}</span></td>
+							  </tr>
+							 @endforeach
+							</tbody>
 						  </table>
 						  </div>
 						 </div>
@@ -337,17 +271,17 @@
 
 
 					<div class="row">
-						<div class="col-12 col-lg-7 col-xl-8 d-flex">
+						<div class="col-12 col-lg-8 col-xl-8 d-flex">
 						  <div class="card radius-10 w-100">
 							<div class="card-header bg-transparent">
 								<div class="d-flex align-items-center">
 									<div>
-										<h6 class="mb-0">Recent Orders</h6>
+										<h6 class="mb-0">Referral Link</h6>
 									</div>
 									<div class="dropdown ms-auto">
 										<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
 										</a>
-										<ul class="dropdown-menu">
+										<!-- <ul class="dropdown-menu">
 											<li><a class="dropdown-item" href="javascript:;">Action</a>
 											</li>
 											<li><a class="dropdown-item" href="javascript:;">Another action</a>
@@ -357,82 +291,71 @@
 											</li>
 											<li><a class="dropdown-item" href="javascript:;">Something else here</a>
 											</li>
-										</ul>
+										</ul> -->
 									</div>
 								</div>
 							   </div>
 							 <div class="card-body">
 								<div class="row">
-								  <div class="col-lg-7 col-xl-8 border-end">
-									 <div id="geographic-map-2"></div>
-								  </div>
-								  <div class="col-lg-5 col-xl-4">
-			                       
-									<div class="mb-4">
-									<p class="mb-2"><i class="flag-icon flag-icon-us me-1"></i> USA <span class="float-end">70%</span></p>
-									<div class="progress" style="height: 7px;">
-										 <div class="progress-bar bg-primary progress-bar-striped" role="progressbar" style="width: 70%"></div>
-									 </div>
-									</div>
-			   
-									<div class="mb-4">
-									 <p class="mb-2"><i class="flag-icon flag-icon-ca me-1"></i> Canada <span class="float-end">65%</span></p>
-									 <div class="progress" style="height: 7px;">
-										 <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" style="width: 65%"></div>
-									 </div>
-									</div>
-			   
-									<div class="mb-4">
-									 <p class="mb-2"><i class="flag-icon flag-icon-gb me-1"></i> England <span class="float-end">60%</span></p>
-									 <div class="progress" style="height: 7px;">
-										 <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: 60%"></div>
-									   </div>
-									</div>
-			   
-									<div class="mb-4">
-									 <p class="mb-2"><i class="flag-icon flag-icon-au me-1"></i> Australia <span class="float-end">55%</span></p>
-									 <div class="progress" style="height: 7px;">
-										 <div class="progress-bar bg-warning progress-bar-striped" role="progressbar" style="width: 55%"></div>
-									   </div>
-									</div>
-			   
-									<div class="mb-4">
-									 <p class="mb-2"><i class="flag-icon flag-icon-in me-1"></i> India <span class="float-end">50%</span></p>
-									 <div class="progress" style="height: 7px;">
-										 <div class="progress-bar bg-info progress-bar-striped" role="progressbar" style="width: 50%"></div>
-									   </div>
-									</div>
+								  <div class="col-lg-12 col-xl-12 border-end">
+								
+								<h3 class="text-center">Your Referral Link</h3>
+								<div class="input-group">
+									<input type="text" id="referralLink" class="form-control" 
+										value="{{url('/register')}}?code={{$user->username}}" readonly>
+										<button class="btn btn-outline-secondary" id="copyButton" onclick="copyLink()">Copy</button>
+                                    <div id="copyPopup" class="popup">Copied!</div>
 
-									<div class="mb-0">
-									   <p class="mb-2"><i class="flag-icon flag-icon-cn me-1"></i> China <span class="float-end">45%</span></p>
-									   <div class="progress" style="height: 7px;">
-										   <div class="progress-bar bg-dark progress-bar-striped" role="progressbar" style="width: 45%"></div>
-										 </div>
-									</div>
-
+								</div>
+								<div class="d-flex justify-content-between mt-3">
+									<a class="btn btn-success btn-custom col-4" 
+									href="https://wa.me/?text=Check%20out%20this%20referral%20link:%20{{url('/register')}}?code={{$user->username}}" 
+									target="_blank">
+									Share on WhatsApp
+									</a>
+									<a class="btn btn-primary btn-custom col-4" 
+									href="{{url('/register')}}?code={{$user->username}}" target="_blank">
+									Open Link
+									</a>
+								</div>
+								
 								  </div>
+								  
 								</div>
 							 </div>
 						   </div>
 						</div>
-			   
+			        
+						
 						<div class="col-12 col-lg-5 col-xl-4 d-flex">
-							<div class="card w-100 radius-10">
+
+
+						    @foreach($usersWallets as $walletdata)
+							@php
+                            $slug1 = $walletdata->wallet_column; 
+
+							$icon =$walletdata->icons;
+							$bg_cl = $section->icons_bg;
+							$walletBalance1 = !empty($wallet_balance) && isset($wallet_balance->slug1) ? $wallet_balance->slug1 : 0;
+							@endphp
 						     <div class="card-body">
 							  <div class="card radius-10 border shadow-none">
 								<div class="card-body">
 									<div class="d-flex align-items-center">
 										<div>
-											<p class="mb-0 text-secondary">Total Likes</p>
-											<h4 class="my-1">45.6M</h4>
-											<p class="mb-0 font-13">+6.2% from last week</p>
+											<p class="mb-0 text-secondary">{{ $walletdata->name }}</p>
+											<h4 class="my-1">{{$currency}} {{ $walletBalance1 }}</h4>
+											<!-- <p class="mb-0 font-13">+6.2% from last week</p> -->
 										</div>
-										<div class="widgets-icons-2 bg-gradient-cosmic text-white ms-auto"><i class='bx bxs-heart-circle'></i>
+										<div class="widgets-icons-2 bg-gradient-cosmic text-white ms-auto"><i class='bx bxs-{{$icon}}'></i>
 										</div>
 									</div>
 								</div>
 							 </div>
-							 <div class="card radius-10 border shadow-none">
+							 @endforeach
+
+
+							 <!-- <div class="card radius-10 border shadow-none">
 								<div class="card-body">
 									<div class="d-flex align-items-center">
 										<div>
@@ -444,133 +367,155 @@
 										</div>
 									</div>
 								</div>
-							 </div>
-							 <div class="card radius-10 mb-0 border shadow-none">
-								<div class="card-body">
-									<div class="d-flex align-items-center">
-										<div>
-											<p class="mb-0 text-secondary">Total Shares</p>
-											<h4 class="my-1">85.4M</h4>
-											<p class="mb-0 font-13">+4.6% from last week</p>
-										</div>
-										<div class="widgets-icons-2 bg-gradient-kyoto text-dark ms-auto"><i class='bx bxs-share-alt'></i>
-										</div>
-									</div>
-								</div>
-							  </div>
-							 </div>
+							 </div> -->
+							
 
 							</div>
 			   
 						</div>
 					 </div><!--end row-->
 
-					 <div class="row row-cols-1 row-cols-lg-3">
-						 <div class="col d-flex">
-                           <div class="card radius-10 w-100">
-							   <div class="card-body">
-								<p class="font-weight-bold mb-1 text-secondary">Weekly Revenue</p>
-								<div class="d-flex align-items-center mb-4">
-									<div>
-										<h4 class="mb-0">$89,540</h4>
-									</div>
-									<div class="">
-										<p class="mb-0 align-self-center font-weight-bold text-success ms-2">4.4% <i class="bx bxs-up-arrow-alt mr-2"></i>
-										</p>
-									</div>
-								</div>
-								<div class="chart-container-0 mt-5">
-									<canvas id="chart3"></canvas>
-								  </div>
-							   </div>
-						   </div>
-						 </div>
-						 <div class="col d-flex">
-							<div class="card radius-10 w-100">
-								<div class="card-header bg-transparent">
-									<div class="d-flex align-items-center">
-										<div>
-											<h6 class="mb-0">Orders Summary</h6>
-										</div>
-										<div class="dropdown ms-auto">
-											<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-											</a>
-											<ul class="dropdown-menu">
-												<li><a class="dropdown-item" href="javascript:;">Action</a>
-												</li>
-												<li><a class="dropdown-item" href="javascript:;">Another action</a>
-												</li>
-												<li>
-													<hr class="dropdown-divider">
-												</li>
-												<li><a class="dropdown-item" href="javascript:;">Something else here</a>
-												</li>
-											</ul>
-										</div>
-									</div>
-								</div>
-								<div class="card-body">
-									<div class="chart-container-1 mt-3">
-										<canvas id="chart4"></canvas>
-									  </div>
-								</div>
-								<ul class="list-group list-group-flush">
-									<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center border-top">Completed <span class="badge bg-gradient-quepal rounded-pill">25</span>
-									</li>
-									<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Pending <span class="badge bg-gradient-ibiza rounded-pill">10</span>
-									</li>
-									<li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Process <span class="badge bg-gradient-deepblue rounded-pill">65</span>
-									</li>
-								</ul>
-							</div>
-						  </div>
-						  <div class="col d-flex">
-							<div class="card radius-10 w-100">
-								 <div class="card-header bg-transparent">
-									<div class="d-flex align-items-center">
-										<div>
-											<h6 class="mb-0">Top Selling Categories</h6>
-										</div>
-										<div class="dropdown ms-auto">
-											<a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
-											</a>
-											<ul class="dropdown-menu">
-												<li><a class="dropdown-item" href="javascript:;">Action</a>
-												</li>
-												<li><a class="dropdown-item" href="javascript:;">Another action</a>
-												</li>
-												<li>
-													<hr class="dropdown-divider">
-												</li>
-												<li><a class="dropdown-item" href="javascript:;">Something else here</a>
-												</li>
-											</ul>
-										</div>
-									 </div>
-								 </div>
-								<div class="card-body">
-								   <div class="chart-container-0">
-									 <canvas id="chart5"></canvas>
-								   </div>
-								</div>
-								<div class="row row-group border-top g-0">
-									<div class="col">
-										<div class="p-3 text-center">
-											<h4 class="mb-0 text-danger">$45,216</h4>
-											<p class="mb-0">Clothing</p>
-										</div>
-									</div>
-									<div class="col">
-										<div class="p-3 text-center">
-											<h4 class="mb-0 text-success">$68,154</h4>
-											<p class="mb-0">Electronic</p>
-										</div>
-									 </div>
-								</div><!--end row-->
-							</div>
-						  </div>
-					 </div><!--end row-->
+			
 
 			</div>
 		</div>
 		<!--end page wrapper -->
+
+
+  
+  @php
+    $labels = [];
+    $data = [];
+    foreach($team as $section) {
+        $slug = $section->wallet_column;
+        $walletBalance = !empty($wallet_balance) && isset($wallet_balance->$slug) ? $wallet_balance->$slug : 0;
+
+        // Collect labels and data dynamically
+        $labels[] = $section->name;  // Assuming 'name' is the label
+        $data[] = $walletBalance;
+    }
+@endphp
+
+<script>
+    var ctx = document.getElementById("chart21").getContext('2d');
+
+    var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
+    gradientStroke1.addColorStop(0, '#fc4a1a');
+    gradientStroke1.addColorStop(1, '#f7b733');
+
+    var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
+    gradientStroke2.addColorStop(0, '#4776e6');
+    gradientStroke2.addColorStop(1, '#8e54e9');
+
+    var gradientStroke3 = ctx.createLinearGradient(0, 0, 0, 300);
+    gradientStroke3.addColorStop(0, '#ee0979');
+    gradientStroke3.addColorStop(1, '#ff6a00');
+
+    var gradientStroke4 = ctx.createLinearGradient(0, 0, 0, 300);
+    gradientStroke4.addColorStop(0, '#42e695');
+    gradientStroke4.addColorStop(1, '#3bb2b8');
+
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: @json($labels),  // Dynamic labels from PHP
+            datasets: [{
+                backgroundColor: [
+                    gradientStroke1,
+                    gradientStroke2,
+                    gradientStroke3,
+                    gradientStroke4
+                ],
+                hoverBackgroundColor: [
+                    gradientStroke1,
+                    gradientStroke2,
+                    gradientStroke3,
+                    gradientStroke4
+                ],
+                data: @json($data),  // Dynamic data from PHP
+                borderWidth: [1, 1, 1, 1]
+            }]
+        },
+        options: {
+            maintainAspectRatio: false,
+            cutout: 82,
+            plugins: {
+                legend: {
+                    display: false,
+                }
+            }
+        }
+    });
+
+
+
+
+
+
+	var ctx = document.getElementById("chart11").getContext('2d');
+   
+   var gradientStroke1 = ctx.createLinearGradient(0, 0, 0, 300);
+   gradientStroke1.addColorStop(0, '#6078ea');  
+   gradientStroke1.addColorStop(1, '#17c5ea'); 
+
+   var gradientStroke2 = ctx.createLinearGradient(0, 0, 0, 300);
+   gradientStroke2.addColorStop(0, '#ff8359');
+   gradientStroke2.addColorStop(1, '#ffdf40');
+
+   var myChart = new Chart(ctx, {
+	   type: 'bar',
+	   data: {
+		   labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], // Use dynamic month names if needed
+		   datasets: [{
+			   label: 'Income',
+			   data: @json($incomeData),  // Dynamically passed income data
+			   borderColor: gradientStroke1,
+			   backgroundColor: gradientStroke1,
+			   hoverBackgroundColor: gradientStroke1,
+			   pointRadius: 0,
+			   fill: false,
+			   borderRadius: 20,
+			   borderWidth: 0
+		   }, {
+			   label: 'Withdrawal',
+			   data: @json($withdrawalData),  // Dynamically passed withdrawal data
+			   borderColor: gradientStroke2,
+			   backgroundColor: gradientStroke2,
+			   hoverBackgroundColor: gradientStroke2,
+			   pointRadius: 0,
+			   fill: false,
+			   borderRadius: 20,
+			   borderWidth: 0
+		   }]
+	   },
+	   options: {
+		   maintainAspectRatio: false,
+		   barPercentage: 0.5,
+		   categoryPercentage: 0.8,
+		   plugins: {
+			   legend: {
+				   display: false,
+			   }
+		   },
+		   scales: {
+			   y: {
+				   beginAtZero: true
+			   }
+		   }
+	   }
+   });
+
+
+
+function copyLink() {
+	const referralInput = document.getElementById("referralLink");
+	referralInput.select();
+	referralInput.setSelectionRange(0, 99999); 
+	navigator.clipboard.writeText(referralInput.value).then(() => {
+		alert("Referral link copied to clipboard!");
+	});
+}
+
+</script>
+
+
